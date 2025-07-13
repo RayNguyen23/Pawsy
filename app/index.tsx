@@ -18,6 +18,7 @@ const AuthScreen = () => {
   const router = useRouter();
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState("");
+  const [Invitation, setInvitation] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [name, setName] = useState("");
@@ -41,6 +42,7 @@ const AuthScreen = () => {
       }
     }
 
+    // Handle authentication logic here
     router.replace("/Home");
   };
 
@@ -121,6 +123,25 @@ const AuthScreen = () => {
                 autoCapitalize="none"
               />
             </View>
+            {!isLogin && (
+              <View style={styles.inputContainer}>
+                <Ionicons
+                  name="ticket-outline"
+                  size={20}
+                  color="#DC143C"
+                  style={styles.inputIcon}
+                />
+                <TextInput
+                  style={styles.input}
+                  placeholder="Invitation Code"
+                  placeholderTextColor="#999"
+                  value={Invitation}
+                  onChangeText={setInvitation}
+                  keyboardType="email-address"
+                  autoCapitalize="none"
+                />
+              </View>
+            )}
 
             <View style={styles.inputContainer}>
               <Ionicons
