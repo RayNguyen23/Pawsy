@@ -1,10 +1,15 @@
+import BookingScreen from "@/app/Booking";
+import ReferralScreen from "@/app/Referral";
+import ScheduleDetailWidget from "@/components/ScheduleDetailWidget";
 import { Ionicons } from "@expo/vector-icons";
 import React, { useState } from "react";
 import {
+  Alert,
   Dimensions,
   FlatList,
   Image,
   ScrollView,
+  Share,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -42,46 +47,55 @@ const HomeScreen = () => {
       "https://images.unsplash.com/photo-1583337130417-3346a1be7dee?w=100&h=100&fit=crop&crop=face",
   });
 
-  const featuredProducts: Product[] = [
+  const [showBooking, setShowBooking] = useState(false);
+  const [showReferral, setShowReferral] = useState(false);
+  const [showScheduleDetail, setShowScheduleDetail] = useState(false);
+
+  const featuredProducts = [
     {
       id: "1",
       name: "Áo len cao cấp",
       price: "299,000đ",
-      image: "https://...",
+      image:
+        "https://images.unsplash.com/photo-1601758228041-f3b2795255f1?w=200&h=200&fit=crop",
       isNew: true,
     },
     {
       id: "2",
       name: "Thức ăn hữu cơ",
       price: "450,000đ",
-      image: "https://...",
+      image:
+        "https://images.unsplash.com/photo-1589924691995-400dc9ecc119?w=200&h=200&fit=crop",
       isNew: false,
     },
     {
       id: "3",
       name: "Đồ chơi thông minh",
       price: "199,000đ",
-      image: "https://...",
+      image:
+        "https://images.unsplash.com/photo-1605568427561-40dd23c2acea?w=200&h=200&fit=crop",
       isNew: true,
     },
   ];
 
-  const adoptionPets: Pet[] = [
+  const adoptionPets = [
     {
       id: "1",
       name: "Luna",
       breed: "Golden Retriever",
-      image: "https://...",
+      image:
+        "https://images.unsplash.com/photo-1552053831-71594a27632d?w=150&h=150&fit=crop&crop=face",
     },
     {
       id: "2",
       name: "Max",
       breed: "Husky",
-      image: "https://...",
+      image:
+        "https://images.unsplash.com/photo-1605568427561-40dd23c2acea?w=150&h=150&fit=crop&crop=face",
     },
   ];
 
-  const petTips: Tip[] = [
+  const petTips = [
     {
       id: "1",
       title: "3 Mẹo chăm sóc thú cưng vào mùa hè",
@@ -93,6 +107,33 @@ const HomeScreen = () => {
       icon: "🎁",
     },
   ];
+
+  const handleQuickBooking = () => {
+    setShowBooking(true);
+  };
+
+  const handleReferFriend = () => {
+    setShowReferral(true);
+  };
+
+  const handleStore3D = () => {
+    Alert.alert(
+      "Cửa hàng 3D",
+      "Chuyển đến tab Cửa hàng để khám phá sản phẩm 3D!"
+    );
+  };
+
+  const handleShareReferral = async () => {
+    try {
+      await Share.share({
+        message: `Tham gia Pawsy cùng mình nhé! Sử dụng mã giới thiệu MINH123 để nhận ưu đãi đặc biệt. Tải app tại: https://pawsy.app`,
+        title: "Giới thiệu Pawsy Pet Shop",
+      });
+    } catch (error) {
+      console.log("Error sharing:", error);
+    }
+  };
+
   const renderProductItem = ({
     item,
     index,
@@ -171,15 +212,24 @@ const HomeScreen = () => {
           </View>
 
           <View style={styles.quickActions}>
-            <TouchableOpacity style={styles.quickActionButton}>
+            <TouchableOpacity
+              style={styles.quickActionButton}
+              onPress={handleQuickBooking}
+            >
               <Ionicons name="calendar" size={20} color="#DC143C" />
               <Text style={styles.quickActionText}>Đặt lịch nhanh</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.quickActionButton}>
+            <TouchableOpacity
+              style={styles.quickActionButton}
+              onPress={handleStore3D}
+            >
               <Ionicons name="storefront" size={20} color="#DC143C" />
               <Text style={styles.quickActionText}>Cửa hàng 3D</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.quickActionButton}>
+            <TouchableOpacity
+              style={styles.quickActionButton}
+              onPress={handleReferFriend}
+            >
               <Ionicons name="people" size={20} color="#DC143C" />
               <Text style={styles.quickActionText}>Giới thiệu bạn bè</Text>
             </TouchableOpacity>
@@ -189,7 +239,10 @@ const HomeScreen = () => {
         {/* Upcoming Booking */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Lịch hẹn sắp tới</Text>
-          <View style={styles.bookingCard}>
+          <TouchableOpacity
+            style={styles.bookingCard}
+            onPress={() => setShowScheduleDetail(true)}
+          >
             <View style={styles.bookingIcon}>
               <Ionicons name="cut" size={24} color="#DC143C" />
             </View>
@@ -200,7 +253,7 @@ const HomeScreen = () => {
             <TouchableOpacity style={styles.bookingButton}>
               <Text style={styles.bookingButtonText}>Xem chi tiết</Text>
             </TouchableOpacity>
-          </View>
+          </TouchableOpacity>
         </View>
 
         {/* Featured Products */}
@@ -255,7 +308,10 @@ const HomeScreen = () => {
               </Text>
               <Text style={styles.referralCodeText}>MINH123</Text>
             </View>
-            <TouchableOpacity style={styles.shareButton}>
+            <TouchableOpacity
+              style={styles.shareButton}
+              onPress={handleShareReferral}
+            >
               <Ionicons name="share-social" size={16} color="#FFFFFF" />
               <Text style={styles.shareButtonText}>Chia sẻ ngay</Text>
             </TouchableOpacity>
@@ -277,10 +333,35 @@ const HomeScreen = () => {
 
         <View style={styles.bottomSpacing} />
       </ScrollView>
+
+      {/* Booking Modal */}
+      {showBooking && (
+        <BookingScreen
+          visible={showBooking}
+          onClose={() => setShowBooking(false)}
+        />
+      )}
+
+      {/* Referral Modal */}
+      {showReferral && (
+        <ReferralScreen
+          visible={showReferral}
+          onClose={() => setShowReferral(false)}
+        />
+      )}
+
+      {/* Schedule Detail Widget */}
+      {showScheduleDetail && (
+        <ScheduleDetailWidget
+          visible={showScheduleDetail}
+          onClose={() => setShowScheduleDetail(false)}
+        />
+      )}
     </View>
   );
 };
 
+// ... (styles remain the same as before)
 const styles = StyleSheet.create({
   container: {
     flex: 1,
