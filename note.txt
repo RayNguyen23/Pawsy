@@ -1,0 +1,76 @@
+featuredProducts {
+  id: string;
+  name: string;
+  price: string;
+  image: string;
+  isNew: boolean;
+}
+
+adoptionPets {
+  id: string;
+  name: string;
+  breed: string;
+  image: string;
+}
+
+
+petTips {
+  id: string;
+  title: string;
+  icon: string;
+}
+
+
+products {
+  id: string;
+  name: string;
+  price: string;
+  image: string;
+  objFile?: string;
+  category: "Thức ăn" | "Đồ chơi" | "Phụ kiện" | "Nhận nuôi";
+  description: string;
+  rating: string;
+  inStock: boolean;
+  fullDescription?: string;
+  specifications?: string[];
+  quantity: string;
+}
+
+
+users {
+  id: string;
+  email: string;
+  password: string;
+  fullName: string;
+  phone: string;
+  address: string;
+  personalToken: string;
+  notification: {
+    "thông báo lịch hẹn": boolean;
+    "thông báo khuyến mãi": boolean;
+    "thông báo tin tức": boolean;
+  };
+  language: "Tiếng Việt" | "English";
+}
+
+upComingSchedule {
+  id: string;
+  fullName: string;
+  phone: string;
+  email: string;
+  address: string;
+  date: string;
+  time: string;
+}
+
+share {
+  id: string;
+  invitationCode: string; // Corresponds to users.personalToken
+  reward: string[]; // Example: ["Spa", "bonus point", ...]
+}
+
+databaseProject: Pawsy
+databasePassword: cuaoicua2925#
+databaseCost: 60$/month
+ProjectUrl: https://sxuahhiurvyhxlxtyhzu.supabase.co
+APIKey: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN4dWFoaGl1cnZ5aHhseHR5aHp1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTI0NTMwMjUsImV4cCI6MjA2ODAyOTAyNX0.1nzayd-m7zsko1xZYX2zYheYc3UyEf_FqAYdFzdXtlo
